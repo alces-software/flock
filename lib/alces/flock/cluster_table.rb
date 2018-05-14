@@ -42,7 +42,7 @@ module Alces
       private
       def name_for(cluster)
         if cluster.name == Cluster.local.name
-          "#{cluster.name} (local)"
+          "#{cluster.name} (local)".green.bold
         else
           cluster.name
         end
