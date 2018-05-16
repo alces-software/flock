@@ -40,6 +40,21 @@ module Alces
           resp.status == 204
         end
 
+        def reports
+          resp = connection.get("reports")
+          resp.body
+        rescue Faraday::ConnectionFailed
+          raise UnreachableEndpointError, @endpoint
+        end
+
+        def report_descriptor(name)
+          reports[name].tap do |r|
+            raise ReportNotFoundError, name if r.nil?
+          end
+        rescue Faraday::ConnectionFailed
+          raise UnreachableEndpointError, @endpoint
+        end
+
         private
         def connection(auth = nil)
           Faraday.new(@endpoint) do |conn|

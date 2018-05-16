@@ -29,21 +29,6 @@ module Alces
           raise UnreachableHubError, @endpoint
         end
 
-        def reports
-          resp = connection.get("reports")
-          resp.body
-        rescue Faraday::ConnectionFailed
-          raise UnreachableHubError, @endpoint
-        end
-
-        def report(name)
-          reports[name].tap do |r|
-            raise ReportNotFoundError, name if r.nil?
-          end
-        rescue Faraday::ConnectionFailed
-          raise UnreachableHubError, @endpoint
-        end
-
         def clusters
           resp = connection.get("query/clusters")
           resp.body['report']

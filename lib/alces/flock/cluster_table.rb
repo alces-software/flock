@@ -13,7 +13,7 @@ module Alces
 
       def initialize(options, clusters, headings: [], title: nil, &block)
         @table = Terminal::Table.new
-        @table.headings = ['Cluster'].concat(headings)
+        @table.headings = ['Cluster'.bold].concat(headings)
         @table.title = title
         clusters.each do |c|
           @table << [name_for(c)].concat(block.call(c))

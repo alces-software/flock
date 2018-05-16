@@ -30,7 +30,7 @@ module Alces
       end
 
       attr_accessor :name, :endpoint
-      delegate :get, :set, :report, :trigger, to: :comms
+      delegate :get, :set, :report, :reports, :report_descriptor, :trigger, to: :comms
 
       def initialize(endpoint: 'http://127.0.0.1:9292', name: nil)
         self.endpoint = endpoint

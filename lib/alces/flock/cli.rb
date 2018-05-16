@@ -41,6 +41,13 @@ module Alces
           c.action Commands::Report, :show
         end
 
+        command :reports do |c|
+          c.syntax = 'flock reports'
+          c.summary = 'Display available reports for flock'
+          c.description = 'Display available reports for flock.'
+          c.action Commands::Report, :list
+        end
+
         command :register do |c|
           c.syntax = 'flock register'
           c.summary = 'Register to a flock'

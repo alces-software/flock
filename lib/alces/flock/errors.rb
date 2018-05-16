@@ -12,6 +12,12 @@ module Alces
       end
     end
 
+    class UnreachableEndpointError < RuntimeError
+      def to_s
+        "unreachable endpoint: #{super}"
+      end
+    end
+
     class ReportNotFoundError < RuntimeError
       def to_s
         "report not found: #{super}"
