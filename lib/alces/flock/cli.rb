@@ -36,8 +36,9 @@ module Alces
 
         command :report do |c|
           c.syntax = 'flock report'
-          c.summary = 'Display report for flock'
-          c.description = 'Display report for flock.'
+          c.summary = 'Display report for flock/cluster'
+          c.description = 'Display report for flock/cluster.'
+          c.option '--cluster NAME', String, 'Show report for the specified cluster'
           c.action Commands::Report, :show
         end
 

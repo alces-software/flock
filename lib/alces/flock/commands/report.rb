@@ -42,8 +42,19 @@ module Alces
         def local_report(descriptor, options)
           table = Terminal::Table.new
           table.headings = descriptor['columns'].map{|s|s.bold}
-          table.title = descriptor['title'].bold
-          data_json = Cluster.local.get(descriptor['source'])
+          cluster_name = nil
+          cluster =
+            if options.cluster
+              Cluster.get(options.cluster).tap do |c|
+                cluster_name = c.name
+              end
+            else
+              Cluster.local.tap do |c|
+                cluster_name = c.name.green.bold
+              end
+            end
+          table.title = "#{descriptor['title'].bold} (#{cluster_name})"
+          data_json = cluster.get(descriptor['source'])
           if data_json != '-'
             data = JSON.parse(data_json)
             table.rows = data.map {|d| d == 'separator' ? :separator : d}
@@ -60,7 +71,13 @@ module Alces
           local_reports = Cluster.local.reports
           hub_reports = Flock.hub.reports
           hub_reports.merge(local_reports).each do |k,v|
-            puts "#{k}: #{v['title']}"
+            scope =
+              if v['type'] == 'local'
+                'Local'
+              else
+                'Flock'
+              end
+            puts "#{sprintf('%20s', k)} [#{scope}]: #{v['title']}"
           end
         end
       end
