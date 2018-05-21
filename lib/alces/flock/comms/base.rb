@@ -58,6 +58,7 @@ module Alces
         private
         def connection(auth = nil)
           Faraday.new(@endpoint) do |conn|
+            conn.options.timeout = ENV['FLOCK_TIMEOUT'] ? ENV['FLOCK_TIMEOUT'].to_f : 5
             conn.response :json, :content_type => /\bjson$/
             conn.basic_auth(Process.euid,auth) unless auth.nil?
             conn.adapter Faraday.default_adapter

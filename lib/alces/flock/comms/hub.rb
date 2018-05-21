@@ -31,7 +31,7 @@ module Alces
 
         def clusters
           resp = connection.get("query/clusters")
-          resp.body['report']
+          resp.body['report'].reject {|c| c['name'] == '-'}
         rescue Faraday::ConnectionFailed
           raise UnreachableHubError, @endpoint
         end
